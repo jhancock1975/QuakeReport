@@ -22,4 +22,8 @@
 
     <!-- Accent color of the app -->
     <color name="colorAccent">#10CAC9</color>
+
+    <!-- background color for list -->
+    <color name="colorListBackground">#edeced</color>
+
 </resources>
