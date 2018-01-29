@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -24,6 +25,7 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
 
     private static DateFormat listItemDateFormat = new SimpleDateFormat("MMM dd, yyyy ");
     private static DateFormat listItemTimeFormat = new SimpleDateFormat("HH:mm:ss a");
+    private static DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
     public static final String LOG_TAG = QuakeArrayAdapter.class.getName();
 
     /**
@@ -50,7 +52,7 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
         // Find the TextViews and set their text
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.quake_list_magnitude);
 
-        magnitudeTextView.setText(quakeListItem.getMagnitude() + "");
+        magnitudeTextView.setText(magnitudeFormat.format(quakeListItem.getMagnitude()));
 
 
         TextView locationDirectionTextView =
