@@ -1,6 +1,8 @@
 package com.example.android.quakereport;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,8 +53,17 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
 
         // Find the TextViews and set their text
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.quake_list_magnitude);
-
         magnitudeTextView.setText(magnitudeFormat.format(quakeListItem.getMagnitude()));
+
+        // Set the proper background color on the magnitude circle.
+        // Fetch the background from the TextView, which is a GradientDrawable.
+        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeTextView.getBackground();
+
+        // Get the appropriate background color based on the current earthquake magnitude
+        int magnitudeColor = getMagnitudeColor(quakeListItem.getMagnitude());
+
+        // Set the color on the magnitude circle
+        magnitudeCircle.setColor(getContext().getResources().getColor(magnitudeColor));
 
 
         TextView locationDirectionTextView =
@@ -73,9 +84,9 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
             Log.d(LOG_TAG, "***");
 
 
-            locationDirectionTextView.setText(locationSplit[0]
+            locationDirectionTextView.setText(locationSplit[0].trim()
                     + getContext().getString(R.string.location_seperator));
-            locationPlaceTextView.setText(locationSplit[1]);
+            locationPlaceTextView.setText(locationSplit[1].trim());
 
         } catch (ArrayIndexOutOfBoundsException e) {
             locationDirectionTextView.setText(quakeListItem.getLocation());
@@ -90,5 +101,31 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
         // Return the whole list item layout
         // so that it can be shown in the ListView
         return listItemView;
+    }
+
+    private int getMagnitudeColor(double magnitude) {
+        int magnitude_trunc = (int)magnitude;
+        switch(magnitude_trunc){
+            case 1:
+                return R.color.magnitude1;
+            case 2:
+                return R.color.magnitude2;
+            case 3:
+                return R.color.magnitude3;
+            case 4:
+                return R.color.magnitude4;
+            case 5:
+                return R.color.magnitude5;
+            case 6:
+                return R.color.magnitude6;
+            case 7:
+                return R.color.magnitude7;
+            case 8:
+                return R.color.magnitude8;
+            case 9:
+                return R.color.magnitude9;
+            default:
+                return R.color.magnitude10plus;
+        }
     }
 }
