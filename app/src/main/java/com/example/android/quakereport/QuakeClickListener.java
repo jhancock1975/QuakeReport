@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,14 @@ class QuakeClickListener implements android.widget.AdapterView.OnItemClickListen
     private static final String LOG_TAG = QuakeClickListener.class.getName();
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.d(LOG_TAG, "onItemClick::item clicked");
+
+        QuakeListItem item = (QuakeListItem) adapterView.getItemAtPosition(i);
+
+        Log.d(LOG_TAG, "onItemClick::uri = " + item.getUrl());
+
+        //open a browser to the URI:
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(item.getUrl()));
+        adapterView.getContext().startActivity(intent);
     }
 }

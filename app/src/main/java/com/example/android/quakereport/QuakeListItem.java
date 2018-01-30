@@ -1,5 +1,6 @@
 package com.example.android.quakereport;
 
+import android.net.Uri;
 import java.util.Date;
 
 /**
@@ -9,15 +10,17 @@ import java.util.Date;
 
 public class QuakeListItem {
 
-    public QuakeListItem(double magnitude, String location, Date date) {
+    public QuakeListItem(double magnitude, String location, Date date, String url) {
         this.magnitude = magnitude;
         this.location = location;
         this.date = date;
+        this.url = url;
     }
 
     private double magnitude;
     private String location;
     private Date date;
+    private String url;
 
     public double getMagnitude() {
         return magnitude;
@@ -41,5 +44,13 @@ public class QuakeListItem {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
