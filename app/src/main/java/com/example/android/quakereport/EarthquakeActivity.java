@@ -18,6 +18,8 @@ package com.example.android.quakereport;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -45,6 +47,8 @@ public class EarthquakeActivity extends AppCompatActivity {
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        earthquakeListView.setOnItemClickListener(new QuakeClickListener());
+
 
         // Create a new {@link ArrayAdapter} of earthquakes
         ArrayAdapter<QuakeListItem> adapter = new QuakeArrayAdapter(this, earthquakes);

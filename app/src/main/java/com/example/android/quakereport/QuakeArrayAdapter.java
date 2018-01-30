@@ -3,6 +3,7 @@ package com.example.android.quakereport;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,7 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
         int magnitudeColor = getMagnitudeColor(quakeListItem.getMagnitude());
 
         // Set the color on the magnitude circle
-        magnitudeCircle.setColor(getContext().getResources().getColor(magnitudeColor));
+        magnitudeCircle.setColor(ContextCompat.getColor(getContext(), magnitudeColor));
 
 
         TextView locationDirectionTextView =
@@ -102,6 +103,7 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
         // so that it can be shown in the ListView
         return listItemView;
     }
+
 
     private int getMagnitudeColor(double magnitude) {
         int magnitude_trunc = (int)magnitude;

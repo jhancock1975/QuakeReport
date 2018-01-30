@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/quake_list_location_place_name"
-            style="@style/style_quake_list_item_bold_text"/>
+            style="@style/style_quake_list_item_darker_text"/>
 
     </LinearLayout>
 
