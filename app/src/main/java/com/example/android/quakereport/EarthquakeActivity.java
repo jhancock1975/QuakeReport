@@ -33,7 +33,10 @@ import java.util.List;
 public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
-
+    public final static String baseUrl = "https://earthquake.usgs.gov";
+    private static final String path = "/fdsnws/event/1/";
+    private static final String query
+            = "query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,9 +44,8 @@ public class EarthquakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list of earthquake locations.
-
-        List<QuakeListItem> earthquakes = QueryUtils.extractEarthquakes();
+        // Create a fake list for initial display
+        List<QuakeListItem> earthquakes = QueryUtils.getInitialList();
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
@@ -57,5 +59,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
 
+        //get the actual list of earthquake data in the background
+        new GetQuakeDataAsync(this).execute(baseUrl+path+query);
     }
 }
