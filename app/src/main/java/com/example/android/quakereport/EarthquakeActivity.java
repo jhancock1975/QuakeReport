@@ -36,7 +36,7 @@ public class EarthquakeActivity extends AppCompatActivity {
     public final static String baseUrl = "https://earthquake.usgs.gov";
     private static final String path = "/fdsnws/event/1/";
     private static final String query
-            = "query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+            = "query?format=geojson&eventtype=earthquake&orderby=time&limit=10";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

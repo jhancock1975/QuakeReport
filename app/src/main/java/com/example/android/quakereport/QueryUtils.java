@@ -144,10 +144,12 @@ public final class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(EarthquakeActivity.LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(EarthquakeActivity.LOG_TAG, "Error response code: "
+                        + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(EarthquakeActivity.LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(EarthquakeActivity.LOG_TAG, "Problem retrieving the earthquake " +
+                    "JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
