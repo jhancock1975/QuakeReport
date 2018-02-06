@@ -29,7 +29,7 @@ public final class QueryUtils {
     public static final String magnitude_key = "mag";
     public static final String properties_key = "properties";
     public static final String uri_key = "url";
-    
+
     /**
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
      * This class is only meant to hold static variables and methods, which can be accessed

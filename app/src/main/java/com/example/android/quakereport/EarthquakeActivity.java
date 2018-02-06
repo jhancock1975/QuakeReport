@@ -15,22 +15,18 @@
  */
 package com.example.android.quakereport;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class EarthquakeActivity extends AppCompatActivity {
+public class EarthquakeActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<List<QuakeListItem>>{
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     public final static String baseUrl = "https://earthquake.usgs.gov";
@@ -61,5 +57,20 @@ public class EarthquakeActivity extends AppCompatActivity {
 
         //get the actual list of earthquake data in the background
         new GetQuakeDataAsync(this).execute(baseUrl+path+query);
+    }
+
+    @Override
+    public Loader<List<QuakeListItem>> onCreateLoader(int i, Bundle bundle) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<QuakeListItem>> loader, List<QuakeListItem> quakeListItems) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<QuakeListItem>> loader) {
+
     }
 }
