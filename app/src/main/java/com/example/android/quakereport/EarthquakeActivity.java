@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class EarthquakeActivity extends AppCompatActivity
     private static final String path = "/fdsnws/event/1/";
     private static final String query
             = "query?format=geojson&eventtype=earthquake&orderby=time&limit=10";
+    private ArrayAdapter<QuakeListItem> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,7 +51,7 @@ public class EarthquakeActivity extends AppCompatActivity
 
 
         // Create a new {@link ArrayAdapter} of earthquakes
-        ArrayAdapter<QuakeListItem> adapter = new QuakeArrayAdapter(this, earthquakes);
+        adapter = new QuakeArrayAdapter(this, earthquakes);
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -61,12 +63,13 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     public Loader<List<QuakeListItem>> onCreateLoader(int i, Bundle bundle) {
-        return null;
+        Log.d(EarthquakeActivity.LOG_TAG, "doInBackground::begin");
+        return new EarthquakeLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<QuakeListItem>> loader, List<QuakeListItem> quakeListItems) {
-
+        adapter = new QuakeArrayAdapter(this, quakeListItems);
     }
 
     @Override
