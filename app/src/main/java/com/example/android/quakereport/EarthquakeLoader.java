@@ -16,8 +16,10 @@ import java.util.List;
  */
 
 public class EarthquakeLoader extends AsyncTaskLoader<List<QuakeListItem>> {
-    public EarthquakeLoader(@NonNull Context context) {
+    public static final int EARTHQUAKE_LOADER_ID=1;
+    public EarthquakeLoader(@NonNull Context context, String urlQuery) {
         super(context);
+        this.urlQuery = urlQuery;
     }
 
     private String urlQuery;
@@ -35,5 +37,10 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<QuakeListItem>> {
 
     public void setUrlQuery(String urlQuery) {
         this.urlQuery = urlQuery;
+    }
+
+    @Override
+    protected void onStartLoading() {
+        forceLoad();
     }
 }

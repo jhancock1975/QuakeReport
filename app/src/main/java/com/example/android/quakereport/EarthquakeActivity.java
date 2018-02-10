@@ -20,8 +20,6 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -34,7 +32,7 @@ public class EarthquakeActivity extends AppCompatActivity
     private static final String path = "/fdsnws/event/1/";
     private static final String query
             = "query?format=geojson&eventtype=earthquake&orderby=time&limit=10";
-    private ArrayAdapter<QuakeListItem> adapter;
+    private QuakeArrayAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,22 +56,25 @@ public class EarthquakeActivity extends AppCompatActivity
         earthquakeListView.setAdapter(adapter);
 
         //get the actual list of earthquake data in the background
-        new GetQuakeDataAsync(this).execute(baseUrl+path+query);
+        //using async task loader
+        getLoaderManager().initLoader(EarthquakeLoader.EARTHQUAKE_LOADER_ID, null,
+                this);
     }
 
     @Override
     public Loader<List<QuakeListItem>> onCreateLoader(int i, Bundle bundle) {
         Log.d(EarthquakeActivity.LOG_TAG, "doInBackground::begin");
-        return new EarthquakeLoader(this);
+        return new EarthquakeLoader(this, baseUrl+path+query);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<QuakeListItem>> loader, List<QuakeListItem> quakeListItems) {
-        adapter = new QuakeArrayAdapter(this, quakeListItems);
+    public void onLoadFinished(Loader<List<QuakeListItem>> loader,
+                               List<QuakeListItem> quakeListItems) {
+        adapter.setEarthquakes(quakeListItems);
     }
 
     @Override
     public void onLoaderReset(Loader<List<QuakeListItem>> loader) {
-
+        adapter.setEarthquakes(QueryUtils.getInitialList());
     }
 }

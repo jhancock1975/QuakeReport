@@ -22,13 +22,16 @@ import java.util.List;
 
 class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
 
+
     public QuakeArrayAdapter(Activity context, List<QuakeListItem> earthquakes) {
         super(context, 0, earthquakes);
+        this.earthquakes = earthquakes;
     }
 
     private static DateFormat listItemDateFormat = new SimpleDateFormat("MMM dd, yyyy ");
     private static DateFormat listItemTimeFormat = new SimpleDateFormat("HH:mm:ss a");
     private static DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
+    List<QuakeListItem> earthquakes;
     public static final String LOG_TAG = QuakeArrayAdapter.class.getName();
 
     /**
@@ -129,5 +132,11 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
             default:
                 return R.color.magnitude10plus;
         }
+    }
+
+    public void setEarthquakes(List<QuakeListItem> earthquakes){
+        this.earthquakes.clear();
+        this.earthquakes.addAll(earthquakes);
+        notifyDataSetChanged();
     }
 }
