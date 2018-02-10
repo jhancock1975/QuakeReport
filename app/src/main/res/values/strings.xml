@@ -16,4 +16,5 @@
 <resources>
     <string name="app_name">Quake Report</string>
     <string name="location_seperator">of</string>
+    <string name="empty_list_msg">Retrieving earthquake data...</string>
 </resources>

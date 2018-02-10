@@ -21,7 +21,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity
@@ -40,12 +42,16 @@ public class EarthquakeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list for initial display
-        List<QuakeListItem> earthquakes = QueryUtils.getInitialList();
+        // Create an empty list for initial display
+        List<QuakeListItem> earthquakes = new ArrayList<QuakeListItem>();
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
         earthquakeListView.setOnItemClickListener(new QuakeClickListener());
+
+        //set empty view to display until we finish downloading
+        TextView empty=(TextView)findViewById(R.id.empty);
+        earthquakeListView.setEmptyView(empty);
 
 
         // Create a new {@link ArrayAdapter} of earthquakes
@@ -63,18 +69,20 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     public Loader<List<QuakeListItem>> onCreateLoader(int i, Bundle bundle) {
-        Log.d(EarthquakeActivity.LOG_TAG, "doInBackground::begin");
+        Log.d(EarthquakeActivity.LOG_TAG, "oncreateLoader::begin");
         return new EarthquakeLoader(this, baseUrl+path+query);
     }
 
     @Override
     public void onLoadFinished(Loader<List<QuakeListItem>> loader,
                                List<QuakeListItem> quakeListItems) {
+        Log.d(EarthquakeActivity.LOG_TAG, "onLoadFinished begin");
         adapter.setEarthquakes(quakeListItems);
     }
 
     @Override
     public void onLoaderReset(Loader<List<QuakeListItem>> loader) {
+        Log.d(EarthquakeActivity.LOG_TAG, "onLoaderRest begin");
         adapter.setEarthquakes(QueryUtils.getInitialList());
     }
 }

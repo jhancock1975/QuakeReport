@@ -41,6 +41,9 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<QuakeListItem>> {
 
     @Override
     protected void onStartLoading() {
+        Log.d(EarthquakeActivity.LOG_TAG, "onStartLoading begin");
         forceLoad();
     }
+
+
 }

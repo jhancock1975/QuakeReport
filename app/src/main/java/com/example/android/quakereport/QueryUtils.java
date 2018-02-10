@@ -44,9 +44,7 @@ public final class QueryUtils {
      */
     public static List<QuakeListItem> getInitialList() {
         Log.d(EarthquakeActivity.LOG_TAG, "getInitialList");
-        ArrayList<QuakeListItem> list = new ArrayList<>();
-        list.add(new QuakeListItem(0.0, "Please Wait...",
-                new Date(System.currentTimeMillis()), EarthquakeActivity.baseUrl));
+        ArrayList<QuakeListItem> list = new ArrayList<QuakeListItem>();
         return list;
     }
 
