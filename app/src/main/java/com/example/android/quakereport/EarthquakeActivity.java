@@ -20,14 +20,16 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<QuakeListItem>>{
+        implements LoaderManager.LoaderCallbacks<List<QuakeListItem>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     public final static String baseUrl = "https://earthquake.usgs.gov";
@@ -35,6 +37,8 @@ public class EarthquakeActivity extends AppCompatActivity
     private static final String query
             = "query?format=geojson&eventtype=earthquake&orderby=time&limit=10";
     private QuakeArrayAdapter adapter;
+    private ListView earthquakeListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,20 +46,16 @@ public class EarthquakeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create an empty list for initial display
-        List<QuakeListItem> earthquakes = new ArrayList<QuakeListItem>();
 
         // Find a reference to the {@link ListView} in the layout
-        ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        earthquakeListView = (ListView) findViewById(R.id.list);
         earthquakeListView.setOnItemClickListener(new QuakeClickListener());
 
-        //set empty view to display until we finish downloading
-        TextView empty=(TextView)findViewById(R.id.empty);
-        earthquakeListView.setEmptyView(empty);
-
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
+        earthquakeListView.setEmptyView(progressBar);
 
         // Create a new {@link ArrayAdapter} of earthquakes
-        adapter = new QuakeArrayAdapter(this, earthquakes);
+        adapter = new QuakeArrayAdapter(this, new ArrayList<QuakeListItem>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -70,14 +70,26 @@ public class EarthquakeActivity extends AppCompatActivity
     @Override
     public Loader<List<QuakeListItem>> onCreateLoader(int i, Bundle bundle) {
         Log.d(EarthquakeActivity.LOG_TAG, "oncreateLoader::begin");
-        return new EarthquakeLoader(this, baseUrl+path+query);
+        return new EarthquakeLoader(this, baseUrl + path + query);
     }
 
     @Override
     public void onLoadFinished(Loader<List<QuakeListItem>> loader,
                                List<QuakeListItem> quakeListItems) {
         Log.d(EarthquakeActivity.LOG_TAG, "onLoadFinished begin");
+
+        //hide the progress bar
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
+        progressBar.setVisibility(View.GONE);
+
+
+        TextView empty = (TextView) findViewById(R.id.empty);
+        earthquakeListView.setEmptyView(empty);
+        empty.setVisibility(View.VISIBLE);
+        adapter.clear();
+        
         adapter.setEarthquakes(quakeListItems);
+
     }
 
     @Override

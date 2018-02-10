@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -135,8 +136,10 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
     }
 
     public void setEarthquakes(List<QuakeListItem> earthquakes){
-        this.earthquakes.clear();
-        this.earthquakes.addAll(earthquakes);
-        notifyDataSetChanged();
+        if (earthquakes != null && earthquakes.size() > 0 && this.earthquakes != null) {
+            this.earthquakes.clear();
+            this.earthquakes.addAll(earthquakes);
+            notifyDataSetChanged();
+        }
     }
 }

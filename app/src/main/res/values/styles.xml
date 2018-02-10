@@ -90,10 +90,16 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="style_empty_list">
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">match_parent</item>
+    <style name="style_empty_list" >
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="progress_bar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
 </resources>
