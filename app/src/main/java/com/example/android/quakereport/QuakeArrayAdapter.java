@@ -90,7 +90,7 @@ class QuakeArrayAdapter extends ArrayAdapter<QuakeListItem> {
 
 
             locationDirectionTextView.setText(locationSplit[0].trim()
-                    + getContext().getString(R.string.location_seperator));
+                    + " " + getContext().getString(R.string.location_seperator));
             locationPlaceTextView.setText(locationSplit[1].trim());
 
         } catch (ArrayIndexOutOfBoundsException e) {

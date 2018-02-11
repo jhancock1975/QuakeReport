@@ -29,5 +29,9 @@
         style="@style/style_empty_list"
         android:text="@string/empty_list_msg" />
 
+    <TextView
+        android:id="@+id/text_not_connected"
+        style="@style/style_empty_list"
+        android:text="@string/msg_not_connected" />
 
 </RelativeLayout>

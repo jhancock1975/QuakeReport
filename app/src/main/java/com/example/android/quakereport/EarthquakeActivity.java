@@ -16,7 +16,10 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -51,8 +54,7 @@ public class EarthquakeActivity extends AppCompatActivity
         earthquakeListView = (ListView) findViewById(R.id.list);
         earthquakeListView.setOnItemClickListener(new QuakeClickListener());
 
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
-        earthquakeListView.setEmptyView(progressBar);
+        
 
         // Create a new {@link ArrayAdapter} of earthquakes
         adapter = new QuakeArrayAdapter(this, new ArrayList<QuakeListItem>());
@@ -60,11 +62,36 @@ public class EarthquakeActivity extends AppCompatActivity
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+        
+        //check network status if network is available, show progress bar
+        //and load earthquakes, otherwise show message that network is not available
+        if (connected()) {
+            //get the actual list of earthquake data in the background
+            //using async task loader
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
+            progressBar.setVisibility(View.VISIBLE);
+            getLoaderManager().initLoader(EarthquakeLoader.EARTHQUAKE_LOADER_ID, null,
+                    this);
+        } else {
+            TextView notConnected = (TextView) findViewById(R.id.text_not_connected);
+            earthquakeListView.setEmptyView(notConnected);
+            notConnected.setVisibility(View.VISIBLE);
+        }
+    }
 
-        //get the actual list of earthquake data in the background
-        //using async task loader
-        getLoaderManager().initLoader(EarthquakeLoader.EARTHQUAKE_LOADER_ID, null,
-                this);
+    private boolean connected() {
+        Log.d(LOG_TAG, "checking network connection...");
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        Log.d(LOG_TAG, "network info = " + networkInfo);
+        Log.d(LOG_TAG, "networkInfo != null && networkInfo.isConnected() == "
+                + (networkInfo != null && networkInfo.isConnected()));
+
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     @Override
@@ -82,13 +109,22 @@ public class EarthquakeActivity extends AppCompatActivity
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
         progressBar.setVisibility(View.GONE);
 
+        if (connected()) {
 
-        TextView empty = (TextView) findViewById(R.id.empty);
-        earthquakeListView.setEmptyView(empty);
-        empty.setVisibility(View.VISIBLE);
-        adapter.clear();
-        
-        adapter.setEarthquakes(quakeListItems);
+            TextView notConnected = (TextView) findViewById(R.id.text_not_connected);
+            notConnected.setVisibility(View.GONE);
+
+            TextView empty = (TextView) findViewById(R.id.empty);
+            earthquakeListView.setEmptyView(empty);
+            empty.setVisibility(View.VISIBLE);
+            adapter.clear();
+
+            adapter.setEarthquakes(quakeListItems);
+        } else {
+            TextView notConnected = (TextView) findViewById(R.id.text_not_connected);
+            earthquakeListView.setEmptyView(notConnected);
+            notConnected.setVisibility(View.VISIBLE);
+        }
 
     }
 
